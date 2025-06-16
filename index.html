@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video con letra sincronizada</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      font-family: 'Dancing Script', cursive;
+      overflow-x: hidden;
+    }
+
+    #video-container {
+      position: relative;
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    video {
+      clip-path: inset(55px 0 0 0);
+      width: 100%;
+      display: block;
+    }
+
+    #lyrics {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      text-align: center;
+      font-size: 2.6rem; /* LETRAS MÁS GRANDES */
+      color: #fff0f5;
+      text-shadow: 2px 2px 5px #ff69b4, -2px -2px 5px #ffb6c1;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      pointer-events: none;
+      user-select: none;
+      z-index: 2;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    #start-button {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      font-size: 1.3rem;
+      font-family: 'Dancing Script', cursive;
+      cursor: pointer;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ffb6c1;
+      z-index: 3;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    #start-button:hover {
+      background-color: #ff85c1;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+<div id="video-container">
+  <video id="video" loop>
+    <source src="img/iglesia.mp4" type="video/mp4" />
+    Tu navegador no soporta video HTML5.
+  </video>
+  <div id="lyrics"></div>
+  <audio id="audio" src="img/rosario.mp3"></audio>
+  <button id="start-button" onclick="startPlayback()">💖 Iniciar 💖</button>
+</div>
+
+<script>
+  const lyrics = [
+    { time: 0, text: "Por un solo beso" },
+    { time: 3, text: "Lo que tú me pidas" },
+    { time: 5, text: "Te lo doy" },
+    { time: 7, text: "Nunca pensé sentir" },
+    { time: 9, text: "Un amor así" },
+    { time: 11, text: "Tener un amor así" },
+    { time: 14, text: "Que me quiera más y más" },
+    { time: 19, text: "Nunca pensé sentir" },
+    { time: 22, text: "Un amor igual" },
+    { time: 24, text: "Un amor que me diera todo" },
+    { time: 27, text: "Lo que tú me das" },
+    { time: 30, text: "Acaríciame" },
+    { time: 33, text: "Como sabes tú" },
+    { time: 36, text: "Que me vuelve loca" },
+    { time: 40, text: "Cuando tú me tocas" },
+    { time: 42, text: "Corazón" },
+  ];
+
+  const video = document.getElementById('video');
+  const audio = document.getElementById('audio');
+  const lyricsDiv = document.getElementById('lyrics');
+  const startButton = document.getElementById('start-button');
+
+  function startPlayback() {
+    video.play();
+    audio.play();
+    startButton.style.display = "none";
+  }
+
+  audio.ontimeupdate = () => {
+    const currentTime = audio.currentTime;
+
+    let currentLine = "";
+    for (let i = 0; i < lyrics.length; i++) {
+      if (currentTime >= lyrics[i].time) {
+        currentLine = lyrics[i].text;
+      } else {
+        break;
+      }
+    }
+    lyricsDiv.textContent = currentLine;
+
+    if (currentTime >= 43.5) {
+      audio.pause();
+      video.pause();
+      location.reload();
+    }
+  };
+
+  audio.onpause = () => video.pause();
+  audio.onplay = () => video.play();
+</script>
+
+</body>
+</html>
