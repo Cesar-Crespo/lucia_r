@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feliz Aniversario</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap"
-        rel="stylesheet">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
@@ -16,7 +17,7 @@
 
         body {
             height: 100vh;
-            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -28,92 +29,28 @@
             text-align: center;
             z-index: 10;
             background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            position: relative;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         h1 {
-            font-size: 5rem;
+            font-size: 4.5rem;
             color: #d63384;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             animation: pulse 2s infinite;
             margin-bottom: 20px;
         }
 
         p {
             font-size: 2rem;
-            color: #fff;
+            color: white;
             font-family: 'Pacifico', cursive;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
         }
 
-        .heart {
-            position: absolute;
-            bottom: -100px;
-            background-color: #ff4d6d;
-            width: 20px;
-            height: 20px;
-            transform: rotate(45deg);
-            animation: float linear forwards;
-            opacity: 0;
-        }
-
-        .heart::before,
-        .heart::after {
-            content: "";
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #ff4d6d;
-            border-radius: 50%;
-        }
-
-        .heart::before {
-            top: -10px;
-            left: 0;
-        }
-
-        .heart::after {
-            top: 0;
-            left: -10px;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        @keyframes float {
-            0% {
-                bottom: -100px;
-                opacity: 1;
-                transform: translateX(0) rotate(45deg);
-            }
-
-            100% {
-                bottom: 100vh;
-                opacity: 0;
-                transform: translateX(var(--tx)) rotate(435deg);
-                /* Spin while floating */
-            }
-        }
-
-        /* Interactive Button */
         button {
-            margin-top: 30px;
             padding: 15px 40px;
             font-size: 1.5rem;
             background-color: #ff4d6d;
@@ -123,17 +60,61 @@
             cursor: pointer;
             font-family: 'Pacifico', cursive;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.5);
         }
 
         button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.6);
             background-color: #d63384;
+            transform: translateY(-3px);
         }
 
-        button:active {
-            transform: translateY(1px);
+        /* Corazones */
+        .heart {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background-color: #ff4d6d;
+            transform: rotate(45deg);
+            animation: float 4s linear forwards;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: -10px;
+            top: 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(45deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), -100vh) rotate(405deg);
+            }
         }
     </style>
 </head>
@@ -143,54 +124,36 @@
     <div class="container">
         <h1>Feliz Aniversario<br>mi Princesa</h1>
         <p>Te amo con todo mi corazón ❤️</p>
-        <button onclick="createExplosion()">¡Click aquí mi amor!</button>
+        <button onclick="createExplosion(event)">¡Click aquí mi amor!</button>
     </div>
 
     <script>
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
+        function createExplosion(event) {
+            const x = event.clientX;
+            const y = event.clientY;
 
-            // Random properties
-            const size = Math.random() * 20 + 10 + 'px'; // 10px to 30px
-            heart.style.width = size;
-            heart.style.height = size;
-            heart.style.setProperty('--tx', (Math.random() * 200 - 100) + 'px'); // Random horizontal movement
+            for (let i = 0; i < 40; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
 
-            // Update pseudo-elements for size (CSS variables would be cleaner but this works direct)
-            const styleSheet = document.createElement("style");
-            // Note: Since pseudo elements are hard to style inline, we keep them relative to parent size, 
-            // but the CSS defined fixed px. Let's adjust the logic to scale transform instead for better performance/simplicity
-            // Actually, scaling the container is easier.
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
 
-            heart.style.width = '20px';
-            heart.style.height = '20px';
-            const scale = Math.random() * 1.5 + 0.5;
-            heart.style.transform = `scale(${scale}) rotate(45deg)`;
+                const scale = Math.random() * 1.5 + 0.5;
+                heart.style.transform = `scale(${scale}) rotate(45deg)`;
 
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // 4s to 7s
-            heart.style.backgroundColor = `hsl(${Math.random() * 60 + 330}, 100%, 65%)`; // Pinkish hues
+                heart.style.setProperty('--tx', (Math.random() * 300 - 150) + 'px');
+                heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+                heart.style.backgroundColor = `hsl(${Math.random() * 30 + 330}, 100%, 65%)`;
 
-            // We need to inject color to pseudo elements too or just use filter hue-rotate
-            heart.style.filter = `hue-rotate(${Math.random() * 40}deg)`;
+                document.body.appendChild(heart);
 
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 8000);
-        }
-
-        // Create background hearts continuously
-        setInterval(createHeart, 300);
-
-        function createExplosion() {
-            for (let i = 0; i < 50; i++) {
-                setTimeout(createHeart, i * 50);
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
             }
         }
     </script>
-</body>
 
+</body>
 </html>
