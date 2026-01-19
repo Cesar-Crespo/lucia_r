@@ -1,159 +1,226 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feliz Aniversario</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Aniversario 💖</title>
 
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-        body {
-            height: 100vh;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Dancing Script', cursive;
-        }
+body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(45deg,#ff9a9e,#fad0c4);
+    font-family:'Dancing Script',cursive;
+}
 
-        .container {
-            text-align: center;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px);
-            padding: 3rem;
-            border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+.container{
+    position:relative;
+    z-index:10;
+    background:rgba(255,255,255,.25);
+    backdrop-filter:blur(12px);
+    padding:3rem;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 40px rgba(0,0,0,.3);
+}
 
-        h1 {
-            font-size: 4.5rem;
-            color: #d63384;
-            animation: pulse 2s infinite;
-            margin-bottom: 20px;
-        }
+h1{
+    font-size:4.5rem;
+    color:#d63384;
+    animation:pulse 2s infinite;
+}
 
-        p {
-            font-size: 2rem;
-            color: white;
-            font-family: 'Pacifico', cursive;
-            margin-bottom: 30px;
-        }
+p{
+    font-size:2rem;
+    color:white;
+    font-family:'Pacifico',cursive;
+    margin:20px 0;
+}
 
-        button {
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            background-color: #ff4d6d;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Pacifico', cursive;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.5);
-        }
+button{
+    padding:15px 45px;
+    font-size:1.5rem;
+    border:none;
+    border-radius:50px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    font-family:'Pacifico',cursive;
+    box-shadow:0 8px 20px rgba(255,77,109,.6);
+    transition:.3s;
+}
 
-        button:hover {
-            background-color: #d63384;
-            transform: translateY(-3px);
-        }
+button:hover{
+    background:#d63384;
+    transform:translateY(-4px);
+}
 
-        /* Corazones */
-        .heart {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background-color: #ff4d6d;
-            transform: rotate(45deg);
-            animation: float 4s linear forwards;
-            z-index: 5;
-            pointer-events: none;
-        }
+/* Corazones */
+.heart{
+    position:fixed;
+    width:20px;
+    height:20px;
+    background:#ff4d6d;
+    transform:rotate(45deg);
+    z-index:5;
+    pointer-events:none;
+    animation:float 4s linear forwards;
+}
 
-        .heart::before,
-        .heart::after {
-            content: "";
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: inherit;
-            border-radius: 50%;
-        }
+.heart::before,.heart::after{
+    content:"";
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:inherit;
+    border-radius:50%;
+}
+.heart::before{top:-10px}
+.heart::after{left:-10px}
 
-        .heart::before {
-            top: -10px;
-            left: 0;
-        }
+/* Mensaje sorpresa */
+.message{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.6);
+    color:white;
+    font-family:'Pacifico',cursive;
+    font-size:3rem;
+    opacity:0;
+    pointer-events:none;
+    transition:.8s;
+    z-index:20;
+    text-align:center;
+    padding:20px;
+}
 
-        .heart::after {
-            left: -10px;
-            top: 0;
-        }
+.message.show{
+    opacity:1;
+    pointer-events:auto;
+}
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+/* Fuegos artificiales */
+.spark{
+    position:fixed;
+    width:6px;
+    height:6px;
+    background:gold;
+    border-radius:50%;
+    pointer-events:none;
+    animation:boom 1.5s ease-out forwards;
+    z-index:8;
+}
 
-        @keyframes float {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) rotate(45deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--tx), -100vh) rotate(405deg);
-            }
-        }
-    </style>
+@keyframes pulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.05)}
+    100%{transform:scale(1)}
+}
+
+@keyframes float{
+    from{opacity:1}
+    to{
+        opacity:0;
+        transform:translate(var(--tx),-100vh) rotate(405deg);
+    }
+}
+
+@keyframes boom{
+    to{
+        transform:translate(var(--dx),var(--dy));
+        opacity:0;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="container">
-        <h1>Feliz Aniversario<br>mi Princesa</h1>
-        <p>Te amo con todo mi corazón ❤️</p>
-        <button onclick="createExplosion(event)">¡Click aquí mi amor!</button>
-    </div>
+<div class="container">
+    <h1>Feliz Aniversario<br>mi Princesa</h1>
+    <p>Te amo con todo mi corazón ❤️</p>
+    <button onclick="magic(event)">✨ Click aquí mi amor ✨</button>
+</div>
 
-    <script>
-        function createExplosion(event) {
-            const x = event.clientX;
-            const y = event.clientY;
+<div class="message" id="message">
+    Gracias por existir 💖<br>
+    Eres lo más hermoso de mi vida ✨
+</div>
 
-            for (let i = 0; i < 40; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
+<audio id="music" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/10/11/audio_6b7b0c7db5.mp3" type="audio/mpeg">
+</audio>
 
-                heart.style.left = x + 'px';
-                heart.style.top = y + 'px';
+<script>
+let started=false;
 
-                const scale = Math.random() * 1.5 + 0.5;
-                heart.style.transform = `scale(${scale}) rotate(45deg)`;
+function magic(e){
+    if(!started){
+        document.getElementById("music").play();
+        started=true;
+        setInterval(backgroundHearts,300);
+    }
+    explosion(e.clientX,e.clientY);
+    fireworks(e.clientX,e.clientY);
+    showMessage();
+}
 
-                heart.style.setProperty('--tx', (Math.random() * 300 - 150) + 'px');
-                heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-                heart.style.backgroundColor = `hsl(${Math.random() * 30 + 330}, 100%, 65%)`;
+function explosion(x,y){
+    for(let i=0;i<40;i++){
+        const h=document.createElement("div");
+        h.className="heart";
+        h.style.left=x+"px";
+        h.style.top=y+"px";
+        h.style.setProperty("--tx",(Math.random()*300-150)+"px");
+        h.style.animationDuration=(Math.random()*2+3)+"s";
+        h.style.background=`hsl(${Math.random()*30+330},100%,65%)`;
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),6000);
+    }
+}
 
-                document.body.appendChild(heart);
+function fireworks(x,y){
+    for(let i=0;i<25;i++){
+        const s=document.createElement("div");
+        s.className="spark";
+        s.style.left=x+"px";
+        s.style.top=y+"px";
+        s.style.setProperty("--dx",(Math.random()*300-150)+"px");
+        s.style.setProperty("--dy",(Math.random()*300-150)+"px");
+        s.style.background=`hsl(${Math.random()*360},100%,60%)`;
+        document.body.appendChild(s);
+        setTimeout(()=>s.remove(),1500);
+    }
+}
 
-                setTimeout(() => {
-                    heart.remove();
-                }, 6000);
-            }
-        }
-    </script>
+function backgroundHearts(){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.style.left=Math.random()*100+"vw";
+    h.style.bottom="-20px";
+    h.style.setProperty("--tx",(Math.random()*200-100)+"px");
+    h.style.animationDuration=(Math.random()*3+5)+"s";
+    h.style.background=`hsl(${Math.random()*30+330},100%,65%)`;
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),8000);
+}
+
+function showMessage(){
+    const msg=document.getElementById("message");
+    msg.classList.add("show");
+    setTimeout(()=>msg.classList.remove("show"),3500);
+}
+</script>
 
 </body>
 </html>
